@@ -68,28 +68,10 @@ app.get('/download-session', async (req, res) => {
     // 在 HTML 的 <head> 中插入 <base> 標籤，使所有相對 URL 都指向原始伺服器
     let html = response.data;
     
-    // html = html.replace(/href=["'](?!(?:https?:|\/\/|#|javascript:))/g, 'href="https://esg.push-server.info');
-    // html = html.replace(/src=["'](?!(?:https?:|\/\/|data:|javascript:))/g, 'src="https://esg.push-server.info');
     html = html.replace('<head>', '<head><base href="https://esg.push-server.info">');
-    // html = html.replace(/\/static\//g, 'https://esg.push-server.info');
-
-    // const injectScript = `
-    // <script>
-    //   // 針對 axios 使用者
-    //   if (window.axios) {
-    //     axios.defaults.baseURL = 'https://esg.push-server.info';
-    //   }
-    //   // 針對原生 fetch 的攔截（選用）
-    //   const originalFetch = window.fetch;
-    //   window.fetch = function(url, config) {
-    //     if (typeof url === 'string' && url.startsWith('/static/')) {
-    //       url = 'https://esg.push-server.info' + url;
-    //     }
-    //     return originalFetch(url, config);
-    //   };
-    // </script>
-    // `;
-    // html = html.replace('<head>', '<head>' + injectScript);
+    // 這樣一來，頁面中的相對路徑（如 /static/js/app.js）就會被解析為 
+    // https://esg.push-server.info/static/js/app.js，確保資源能正確載入
+    // 注意：如果頁面中有使用 JavaScript 動態生成 URL，可能還需要額外處理，但這是最基本的解決方案。
 
     // 直接回傳 HTML 給 iframe
     res.send(html);
@@ -105,6 +87,7 @@ app.get('/download-session', async (req, res) => {
 
 // workaround: 反向代理（選用）
 // 只要是 /static/ 開頭的請求，通通轉發到目標伺服器
+// 包含使用 JavaScript 動態生成 URL 的情況，因為這些 URL 也會以 /static/ 開頭
 app.use('/static', createProxyMiddleware({
     target: 'https://esg.push-server.info',
     changeOrigin: true,
