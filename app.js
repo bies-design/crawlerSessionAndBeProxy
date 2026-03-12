@@ -3,6 +3,7 @@ const express = require('express');
 // 安裝 axios 或使用 node-fetch
 const axios = require('axios');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+// const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,23 @@ async function getFlashCookies(testPath) {
   }
   return globalCookies;
 }
+
+// // 設定：每 1 秒 (1000ms) 最多 2 次請求
+// const limiter = rateLimit({
+//   windowMs: 1000, // 1 秒
+//   max: 2, // 限制每個 IP 在 1 秒內最多 2 次請求 
+//   standardHeaders: true, // 在 Response Header 回傳剩餘次數 (X-RateLimit-Limit)
+//   legacyHeaders: false, 
+//   handler: (req, res) => {
+//     // 當超過限制時的回傳訊息
+//     res.status(429).json({
+//       error: "Too Many Requests",
+//       message: "每秒僅限 2 次請求，請稍後再試。"
+//     });
+//   }
+// });
+// // 套用到所有路由
+// app.use(limiter);
 
 // API 接口：Client 訪問此處即可下載 Cookie 檔案
 app.get('/download-session', async (req, res) => {
