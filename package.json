@@ -1,0 +1,27 @@
+{
+  "name": "crawlersession",
+  "version": "1.0.0",
+  "description": "Puppeteer session management for ESG server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "puppeteer",
+    "crawler",
+    "backend"
+  ],
+  "author": "mark.hsieh@bies.cloud",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.13.6",
+    "express": "^5.2.1",
+    "http-proxy-middleware": "^3.0.5",
+    "puppeteer": "^19.0.0"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  }
+}
