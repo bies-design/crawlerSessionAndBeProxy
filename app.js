@@ -101,6 +101,15 @@ app.use('/static', createProxyMiddleware({
     }
 }));
 
+// 攔截所有請求 (GET, POST, etc.)
+app.all('*', (req, res) => {
+    res.status(403).json({
+        success: false,
+        message: "無法受理此請求 (Request Not Accepted)",
+        timestamp: new Date().toISOString()
+    });
+});
+
 app.listen(PORT, () => {
   console.log(`=================================`);
   console.log(`爬蟲服務已啟動在 http://localhost:${PORT}`);
