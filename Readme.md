@@ -42,6 +42,9 @@ npm audit fix                                 <-- 安全更新
 npm run dev
 ```
 
+## 設計概念
+![設計概念](whiteboard_exported_image.png)
+
 ## 預留功能
 > 限制連線請求次數，已經註解不啟用。也不會記錄在 package.json
 
